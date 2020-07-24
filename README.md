@@ -1,7 +1,7 @@
 # aws-codebuild-github-autobuild
 aws-codebuild-github-autobuild utilizes the AutoBuild feature from the aws-delivlib library (https://github.com/awslabs/aws-delivlib).
 
-An easy way to trigger AWS CodeBuilds through any changes from a GitHub repository.
+An easy way to trigger AWS CodeBuild through any changes from a GitHub repository.
 
 
 # Credentials File
@@ -34,7 +34,7 @@ This serverless app solves a common complaint when using AWS CodeBuild as a CI s
 
 To attach this app to an existing AWS CodeBuild project in your AWS account,
 
-1. Go to the app's page on the Serverless Application Repository and click "Deploy"
+1. Go to the app's page on the [Serverless Application Repository](https://serverlessrepo.aws.amazon.com/applications/arn:aws:serverlessrepo:us-east-1:277187709615:applications~github-codebuild-logs) and click "Deploy"
 2. Provide the CodeBuild project name and any other parameters (see parameter details below) and click "Deploy"
 
 ## App Parameters
