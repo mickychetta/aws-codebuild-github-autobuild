@@ -10,3 +10,8 @@ cdk.out
 # Parcel build directories
 .cache
 .build
+
+# Credentials
+credentials.ts
+
+.DS_Store
