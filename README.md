@@ -16,6 +16,8 @@ An easy way to trigger AWS CodeBuild through any changes from a GitHub repositor
 
 # CloudFormation Stack
 1. Run `cdk synth` to emit the synthesized 
+    * If you receive a `Subprocess exited with error 1`. Try deleting `node_modules` and running `npm i` in root directory.
+
 2. Run `cdk deploy` to deploy this stack to your AWS account
 3. If successful, the stack will be created in the configured AWS account with the specified GitHub repository
 4. Any changes to the repository (pull requests or pushes) will trigger the CodeBuild
