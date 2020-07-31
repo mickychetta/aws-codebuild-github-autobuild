@@ -1,7 +1,8 @@
 import { core as cdk } from "monocdk-experiment";
 import delivlib = require('aws-delivlib');
 import { AutoBuild } from 'aws-delivlib/lib/auto-build';
-import {github_repo, github_token} from '../credentials';
+import {github_repo, github_token, buildspec_name} from '../credentials';
+import { BuildSpec } from "monocdk-experiment/src/aws-codebuild";
 
 
 export class GithubCodebuildStack extends cdk.Stack {
@@ -15,7 +16,8 @@ export class GithubCodebuildStack extends cdk.Stack {
         tokenSecretArn: github_token, // GitHub Token from AWS Secrets Manager
       }),
       publicLogs: true,
-      deletePreviousPublicLogsLinks: false
+      deletePreviousPublicLogsLinks: false,
+      buildSpec: BuildSpec.fromSourceFilename(buildspec_name)
     });
   }
 }
