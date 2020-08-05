@@ -6,13 +6,46 @@ An easy way to trigger AWS CodeBuild through any changes from a GitHub repositor
 
 # Credentials File
 1. In your root directory, create a file called `credentials.ts`
-2. The file should look like:
+
+2. The file should look like:   
+    ### Buildspec file in repository
     ```
     export var github_repo:string = 'PLACEHOLDER';
     export var github_token:string = 'PLACEHOLDER';
-    export var buildspec_name:string = 'PLACEHOLDER'
+    export var buildspec:string = 'PLACEHOLDER'
+    ```    
+    * In `lib/github-codebuild-stack.ts`, change the buildspec line (line 19) to:
+        ```
+        buildSpec: BuildSpec.fromSourceFilename(buildspec)
+        ```
+
+    ### Buildspec object in Codebuild
     ```
-3. Replace `PLACEHOLDER` with a valid GitHub repository, GitHub Token Secrets Manager ARN, and name/path to the buildspec file.
+    import { BuildSpec } from "monocdk-experiment/src/aws-codebuild";
+
+    export var github_repo:string = 'PLACEHOLDER';
+    export var github_token:string = 'PLACEHOLDER';
+
+    // REPLACE WITH YOUR BUILDSPEC CONTEXT
+    export var buildspec = BuildSpec.fromObject({
+        version: '0.2',
+        phases: {
+        build: {
+            commands: [
+            'echo "Hello, world!"'
+            ]
+        }
+        },
+        artifacts: {
+        files: [ '**/*' ],
+        'base-directory': 'dist'
+        }
+    });
+    ```
+
+3. Replace `PLACEHOLDER` with a valid GitHub repository, GitHub Token Secrets Manager ARN, and name/path to the buildspec file OR buildspec context.
+
+
 
 # CloudFormation Stack
 1. Run `cdk synth` to emit the synthesized 

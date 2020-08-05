@@ -1,11 +1,10 @@
 import { core as cdk } from "monocdk-experiment";
 import delivlib = require('aws-delivlib');
 import { AutoBuild } from 'aws-delivlib/lib/auto-build';
-import {github_repo, github_token, buildspec_name} from '../credentials';
-import { BuildSpec } from "monocdk-experiment/src/aws-codebuild";
+import {github_repo, github_token, buildspec} from '../credentials';
 
 
-export class GithubCodebuildStack extends cdk.Stack {
+export class AutobuildStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
@@ -17,7 +16,8 @@ export class GithubCodebuildStack extends cdk.Stack {
       }),
       publicLogs: true,
       deletePreviousPublicLogsLinks: false,
-      buildSpec: BuildSpec.fromSourceFilename(buildspec_name)
-    });
+      buildSpec: buildspec
+    })
   }
 }
+
