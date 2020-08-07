@@ -20,8 +20,9 @@
   },
   "dependencies": {
     "aws-delivlib": "^7.6.1",
-    "source-map-support": "^0.5.16",
+    "constructs": "^3.0.4",
     "monocdk-experiment": "^1.28.0",
-    "constructs": "^3.0.4"
+    "source-map-support": "^0.5.16",
+    "yaml": "^1.10.0"
   }
 }
