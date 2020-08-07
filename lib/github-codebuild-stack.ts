@@ -1,14 +1,18 @@
 import { core as cdk } from "monocdk-experiment";
 import delivlib = require('aws-delivlib');
 import { AutoBuild } from 'aws-delivlib/lib/auto-build';
-import {github_repo, github_token, buildspec} from '../credentials';
-
+import { BuildSpec } from "monocdk-experiment/src/aws-codebuild";
+import * as fs from 'fs';
+const yaml = require('YAML')
 
 export class AutobuildStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    // The code that defines your stack goes here
+    const github_repo:string = this.node.tryGetContext('github_repo');
+    const github_token:string = this.node.tryGetContext('tokenSecretArn');
+    const buildspec = BuildSpec.fromObject(yaml.parse(fs.readFileSync(this.node.tryGetContext('buildspec'), 'utf8')));
+
     new AutoBuild(this, 'codebuild-github-autobuild', {
       repo: new delivlib.GitHubRepo({
         repository: github_repo, // GitHub Repositoy
@@ -16,7 +20,7 @@ export class AutobuildStack extends cdk.Stack {
       }),
       publicLogs: true,
       deletePreviousPublicLogsLinks: false,
-      buildSpec: buildspec
+      buildSpec: buildspec //Buildspec file path
     })
   }
 }

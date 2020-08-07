@@ -4,22 +4,46 @@ aws-codebuild-github-autobuild utilizes the AutoBuild feature from the aws-deliv
 An easy way to trigger AWS CodeBuild through any changes from a GitHub repository.
 
 
-# Credentials File
-1. In your root directory, create a file called `credentials.ts`
+# Credential Variables
+## Option 1: Specify context variables as part of the AWS CDK CLI command 
+    
+    $ cdk deploy --context github_repo=PLACEHOLDER --context github_token=PLACEHOLDER --context buildspec=PLACEHOLDER
 
-2. The file should look like:   
-    ### Buildspec file in repository
+1. Replace `PLACEHOLDER` with a valid GitHub repository, GitHub Token Secrets Manager ARN, and name/path to the buildspec file.
+
+2. Run this command in the terminal when deploying your stack.
+
+## Option 2: Exporting Variables  
+
+1. In main stack, make sure to include: 
+```
+import {github_repo, github_token, buildspec} from '../credentials';
+```
+
+2. Remove these lines of code in main stack since we are exporting variables.
+```
+const github_repo:string = this.node.tryGetContext('github_repo');
+const github_token:string = this.node.tryGetContext('tokenSecretArn');
+const buildspec = BuildSpec.fromObject(yaml.parse(fs.readFileSync(this.node.tryGetContext('buildspec'), 'utf8')));
+```
+      
+3. In your root directory, create a file called `credentials.ts`
+
+4. The `credentials.ts` should look like:
+    ### BuildSpec file in repository   
     ```
     export var github_repo:string = 'PLACEHOLDER';
     export var github_token:string = 'PLACEHOLDER';
     export var buildspec:string = 'PLACEHOLDER'
     ```    
-    * In `lib/github-codebuild-stack.ts`, change the buildspec line (line 19) to:
+    * In `lib/github-codebuild-stack.ts`, change the buildspec line to:
         ```
         buildSpec: BuildSpec.fromSourceFilename(buildspec)
         ```
 
-    ### Buildspec object in Codebuild
+    ## OR
+
+    ### Inline BuildSpec object in Codebuild
     ```
     import { BuildSpec } from "monocdk-experiment/src/aws-codebuild";
 
@@ -43,11 +67,12 @@ An easy way to trigger AWS CodeBuild through any changes from a GitHub repositor
     });
     ```
 
-3. Replace `PLACEHOLDER` with a valid GitHub repository, GitHub Token Secrets Manager ARN, and name/path to the buildspec file OR buildspec context.
+5. Replace `PLACEHOLDER` with a valid GitHub repository, GitHub Token Secrets Manager ARN, and name/path to the buildspec file OR buildspec context.
 
 
 
 # CloudFormation Stack
+If you did Option 1 in the Credential Variables section, ignore these steps:
 1. Run `cdk synth` to emit the synthesized 
     * If you receive a `Subprocess exited with error 1`. Try deleting `node_modules` and running `npm i` in root directory.
 
@@ -55,9 +80,8 @@ An easy way to trigger AWS CodeBuild through any changes from a GitHub repositor
 3. If successful, the stack will be created in the configured AWS account with the specified GitHub repository
 4. Any changes to the repository (pull requests or pushes) will trigger the CodeBuild
 5. The specified buildspec in the repository will be ran
-6. (Optional) To change the buildspec file name after the deployment of the stack: goto CodeBuild in the AWS console, click **Edit** then **Buildspec**. This will prevent you from creating another stack for a different buildspec file name.
 
-One build file will be ran in the AutoBuild. If there are multiple build files, you may need to create one build file with all the builds. 
+One build file will be ran in the AutoBuild. If there are multiple build files, you may need to create one build file with all the builds combined. 
 
 # (Optional) GitHub CodeBuild Logs
 Reference: https://serverlessrepo.aws.amazon.com/applications/arn:aws:serverlessrepo:us-east-1:277187709615:applications~github-codebuild-logs
