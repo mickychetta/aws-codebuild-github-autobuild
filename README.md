@@ -6,12 +6,13 @@ An easy way to trigger AWS CodeBuild through any changes from a GitHub repositor
 
 # Credential Variables
 ## Option 1: Specify context variables as part of the AWS CDK CLI command 
+1. Run `npm run build` to perform the necessary build tasks for the project
+
+2. Replace `PLACEHOLDER` with a valid GitHub repository, GitHub Token Secrets Manager ARN, and name/path to the buildspec file.
     
     $ cdk deploy --context github_repo=PLACEHOLDER --context github_token=PLACEHOLDER --context buildspec=PLACEHOLDER
 
-1. Replace `PLACEHOLDER` with a valid GitHub repository, GitHub Token Secrets Manager ARN, and name/path to the buildspec file.
-
-2. Run this command in the terminal when deploying your stack.
+3. Run this command in the terminal when deploying your stack.
 
 ## Option 2: Exporting Variables  
 
