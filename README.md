@@ -10,7 +10,7 @@ An easy way to trigger AWS CodeBuild through any changes from a GitHub repositor
 
 2. Replace `PLACEHOLDER` with a valid GitHub repository, GitHub Token Secrets Manager ARN, and name/path to the buildspec file.
     
-    $ cdk deploy --context github_repo=PLACEHOLDER --context github_token=PLACEHOLDER --context buildspec=PLACEHOLDER
+    ```$ cdk deploy --context github_repo=PLACEHOLDER --context github_token=PLACEHOLDER --context buildspec=PLACEHOLDER```
 
 3. Run this command in the terminal when deploying your stack.
 
