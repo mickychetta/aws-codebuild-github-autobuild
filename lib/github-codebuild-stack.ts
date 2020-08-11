@@ -10,7 +10,7 @@ export class AutobuildStack extends cdk.Stack {
     super(scope, id, props);
 
     const github_repo:string = this.node.tryGetContext('github_repo');
-    const github_token:string = this.node.tryGetContext('tokenSecretArn');
+    const github_token:string = this.node.tryGetContext('github_token');
     const buildspec = BuildSpec.fromObject(yaml.parse(fs.readFileSync(this.node.tryGetContext('buildspec'), 'utf8')));
 
     new AutoBuild(this, 'codebuild-github-autobuild', {
