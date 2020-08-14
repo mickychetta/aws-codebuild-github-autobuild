@@ -5,13 +5,14 @@ import { BuildSpec } from "monocdk-experiment/src/aws-codebuild";
 import * as fs from 'fs';
 const yaml = require('YAML')
 
-export class AutobuildStack extends cdk.Stack {
+export class AutoBuildStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
     const github_repo:string = this.node.tryGetContext('github_repo');
-    const github_token:string = this.node.tryGetContext('tokenSecretArn');
+    const github_token:string = this.node.tryGetContext('github_token');
     const buildspec = BuildSpec.fromObject(yaml.parse(fs.readFileSync(this.node.tryGetContext('buildspec'), 'utf8')));
+
 
     new AutoBuild(this, 'codebuild-github-autobuild', {
       repo: new delivlib.GitHubRepo({
