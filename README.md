@@ -66,6 +66,8 @@ Imports the source repository credentials for an AWS CodeBuild project that has 
 # Context Variables
 Specify context variables as part of the AWS CDK CLI command 
 
+0. Run `npm install` to install dependencies.
+
 1. Run `npm run build` to perform the necessary build tasks for the project
 
 
