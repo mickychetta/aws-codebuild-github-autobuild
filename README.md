@@ -98,4 +98,72 @@ This serverless app solves a common complaint when using AWS CodeBuild as a CI s
 
 This is automatically attached to the created AWS CodeBuild project in your AWS account
   
-  
+# Required Reviews from Code Owners (Optional)
+Reference: https://docs.github.com/en/github/administering-a-repository/enabling-required-reviews-for-pull-requests
+
+![Review](images/review.png)
+
+1. On GitHub, navigate to the main page of the repository.
+2. Under your repository name, click  Settings.
+3. In the left menu, click Branches.
+4. Next to "Branch protection rules", click Add rule.
+5. Under "Branch name pattern", type the branch name or pattern you want to protect.
+6. Select Require pull request reviews before merging.
+7. In the Required approving reviews drop-down menu, select the number of approving reviews you'd like to require on the branch.
+8. Enable require review from Code Owners to require review from a code owner when the pull request affects code that has a designated owner. For more information, see ["About code owners](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/about-code-owners)."
+
+## Create CODEOWNERS file
+CODEOWNERS file location
+To use a CODEOWNERS file, create a new file called CODEOWNERS in the root, docs/, or .github/ directory of the repository, in the branch where you'd like to add the code owners.
+
+Each CODEOWNERS file assigns the code owners for a single branch in the repository. Thus, you can assign different code owners for different branches, such as @octo-org/codeowners-team for a code base on the master branch and @octocat for a GitHub Pages site on the gh-pages branch.
+
+For code owners to receive review requests, the CODEOWNERS file must be on the base branch of the pull request. For example, if you assign @octocat as the code owner for .js files on the gh-pages branch of your repository, @octocat will receive review requests when a pull request with changes to .js files is opened between the head branch and gh-pages.
+
+Example of CODEOWNERS file:
+```
+# This is a comment.
+# Each line is a file pattern followed by one or more owners.
+
+# These owners will be the default owners for everything in
+# the repo. Unless a later match takes precedence,
+# @global-owner1 and @global-owner2 will be requested for
+# review when someone opens a pull request.
+
+*       @global-owner1 @global-owner2
+
+# Order is important; the last matching pattern takes the most
+# precedence. When someone opens a pull request that only
+# modifies JS files, only @js-owner and not the global
+# owner(s) will be requested for a review.
+
+*.js    @js-owner
+
+# You can also use email addresses if you prefer. They'll be
+# used to look up users just like we do for commit author
+# emails.
+
+*.go docs@example.com
+
+# In this example, @doctocat owns any files in the build/logs
+# directory at the root of the repository and any of its
+# subdirectories.
+
+/build/logs/ @doctocat
+
+# The `docs/*` pattern will match files like
+# `docs/getting-started.md` but not further nested files like
+# `docs/build-app/troubleshooting.md`.
+
+docs/*  docs@example.com
+
+# In this example, @octocat owns any file in an apps directory
+# anywhere in your repository.
+
+apps/ @octocat
+
+# In this example, @doctocat owns any file in the `/docs`
+# directory in the root of your repository.
+
+/docs/ @doctocat
+```
