@@ -97,4 +97,4 @@ This serverless app solves a common complaint when using AWS CodeBuild as a CI s
 ![Logs](images/logs.png)
 
 This is automatically attached to the created AWS CodeBuild project in your AWS account
-
+ 
